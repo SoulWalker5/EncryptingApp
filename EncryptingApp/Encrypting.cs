@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EncryptingApp
 {
@@ -97,11 +98,10 @@ namespace EncryptingApp
         {
             text = text.ToLower();
 
-            char[] separators = { '\\', '/', ',', '.', '?', '!', ';', '{', '}', '[', ']', ':', '*', '@', '#', '$', '№', '&', '+', '<', '>', '|', '~', '`', '"', '_', '^', '(', ')', ' ' };
+            Regex regex = new Regex("[a-z]{1,}", RegexOptions.IgnoreCase);
+            var newText = regex.Matches(text).ToList();
 
-            var newText = text.Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            for (int i = newText.Count -1 ; i >= 0; i--)
+            for (int i = newText.Count - 1; i >= 0; i--)
             {
                 if (newText[i].Equals("-"))
                 {
@@ -116,15 +116,26 @@ namespace EncryptingApp
             {
                 for (int j = i - 1; j >= 0; j--)
                 {
-                    if (newText[i].Equals(newText[j]))
+                    if (newText[i].Value.Equals(newText[j].Value))
                     {
                         counter[i] += 1;
                     }
                 }
-                textList.Add((newText[i], counter[i]));
+                textList.Add((newText[i].Value, counter[i]));
             }
-            var topThreeWords = textList.Distinct().OrderByDescending(x => x.number).Take(3).Where(x => x.number > 0);
-            var sortedArray = topThreeWords.Select(x => x.word).ToArray();
+
+            var orderedList = textList.OrderByDescending(x => x.number).ToList();
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (orderedList[i].word.Equals(orderedList[i + 1].word))
+                {
+                    orderedList.RemoveAt(1);
+                    i--;
+                }
+            }
+
+            var sortedArray = orderedList.Take(3).Select(x => x.word).ToArray();
 
             if (sortedArray.Length < 3)
             {

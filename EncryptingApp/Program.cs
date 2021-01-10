@@ -35,6 +35,8 @@ namespace EncryptingApp
             {
                 Console.WriteLine(item);
             }
+
+            Console.ReadKey();
         }
     }
 }
