@@ -25,8 +25,8 @@ namespace EncryptingApp
 
             while (n != 0)
             {
-                string outputTextPart2 = default;
-                string outputTextPart1 = default;
+                StringBuilder outputTextPart2 = new StringBuilder();
+                StringBuilder outputTextPart1 = new StringBuilder();
                 string outputText = default;
 
                 n--;
@@ -35,13 +35,15 @@ namespace EncryptingApp
                 {
                     if (i % 2 == 0)
                     {
-                        outputTextPart2 += text[i];
+                        outputTextPart2.Append(text[i]);
+                        //outputTextPart2 += text[i];
                     }
                     else
                     {
-                        outputTextPart1 += text[i];
+                        outputTextPart1.Append(text[i]);
+                        //outputTextPart1 += text[i];
                     }
-                    outputText = outputTextPart1 + outputTextPart2;
+                    outputText = outputTextPart1.ToString() + outputTextPart2.ToString();
                 }
 
                 text = outputText;
@@ -56,7 +58,7 @@ namespace EncryptingApp
         /// <param name="encryptedText">Input string</param>
         /// <param name="n">Repeats of decrypting</param>
         /// <returns></returns>
-        public static string Decrypting(string encryptedText, int n)
+        public static string Decrypt(string encryptedText, int n)
         {
             if (string.IsNullOrEmpty(encryptedText) || n <= 0)
             {
@@ -67,23 +69,23 @@ namespace EncryptingApp
 
             while (n != 0)
             {
-                string outputText = default;
+                StringBuilder outputText = new StringBuilder();
                 int middle = (encryptedText.Length / 2);
 
                 n--;
 
                 for (int i = 0; i < middle; i++)
                 {
-                    outputText += encryptedText[i + middle];
-                    outputText += encryptedText[i];
+                    outputText.Append(encryptedText[i + middle]);
+                    outputText.Append(encryptedText[i]);
 
                     if (encryptedText.Length % 2 != 0 && i == middle - 1)
                     {
-                        outputText += encryptedText[encryptedText.Length - 1];
+                        outputText.Append(encryptedText[encryptedText.Length - 1]);
                     }
                 }
 
-                encryptedText = outputText;
+                encryptedText = outputText.ToString();
             }
 
             return encryptedText;
@@ -98,7 +100,7 @@ namespace EncryptingApp
         {
             text = text.ToLower();
 
-            Regex regex = new Regex("[a-z]{1,}", RegexOptions.IgnoreCase);
+            Regex regex = new Regex("[a-z]{1,}[',-][a-z]{1,}|[a-z]{1,}", RegexOptions.IgnoreCase);
             var newText = regex.Matches(text).ToList();
 
             for (int i = newText.Count - 1; i >= 0; i--)
@@ -128,7 +130,13 @@ namespace EncryptingApp
 
             for (int i = 0; i < 3; i++)
             {
-                if (orderedList[i].word.Equals(orderedList[i + 1].word))
+                if (orderedList.Count < 3)
+                {
+                    Array.Clear(orderedList.ToArray(), 0, orderedList.Count);
+                    break;
+                }
+
+                else if (orderedList[i].word.Equals(orderedList[i + 1].word))
                 {
                     orderedList.RemoveAt(1);
                     i--;
@@ -136,12 +144,6 @@ namespace EncryptingApp
             }
 
             var sortedArray = orderedList.Take(3).Select(x => x.word).ToArray();
-
-            if (sortedArray.Length < 3)
-            {
-                Array.Clear(sortedArray, 0, sortedArray.Length);
-                return sortedArray;
-            }
 
             return sortedArray;
         }

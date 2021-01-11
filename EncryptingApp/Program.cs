@@ -7,15 +7,15 @@ namespace EncryptingApp
         static void Main(string[] args)
         {
             Console.WriteLine("Encrypted string is: " + Encrypting.Encrypt("", 1));
-            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypting("", 1));
+            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypt("", 1));
             Console.WriteLine("Encrypted string is: " + Encrypting.Encrypt(null, 1));
-            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypting(null, 1));
+            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypt(null, 1));
             Console.WriteLine("Encrypted string is: " + Encrypting.Encrypt("Abcdefghij", 1));
-            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypting("bdfhacegi", 1));
+            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypt("bdfhacegi", 1));
             Console.WriteLine("Encrypted string is: " + Encrypting.Encrypt("Abcdefghi", 1));
-            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypting("bdfhjacegi", 1));
+            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypt("bdfhjacegi", 1));
             Console.WriteLine("Encrypted string is: " + Encrypting.Encrypt("Abcdefghij", 2));
-            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypting("dhcgbfaei", 2));
+            Console.WriteLine("Decrypted string is: " + Encrypting.Decrypt("dhcgbfaei", 2));
 
             var hz = "ajhsgfuyatgiuyf two-way two-way - -";
             foreach (var item in Encrypting.MostCommonWords(hz))
